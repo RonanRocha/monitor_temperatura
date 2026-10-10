@@ -16,6 +16,7 @@ Ao ser aberto, o software:
 4. Manda a temperatura atual para o email.
 
 ## Funcionalidades
+
 - [ ] Detecção do Arduino
 - [ ] Leitura da temperatura atual
 - [ ] Envio para o email
@@ -23,12 +24,14 @@ Ao ser aberto, o software:
 ## Requisitos
 
 ### Hardware
+
 - Arduino UNO
 - Sensor de temperatura LM35
 - Cabo USB
 - Jumpers
 
 ### Software
+
 - Python
 - API mailersend, serial e dotEnv
 - Vs code e Arduino UNO
@@ -38,6 +41,13 @@ Ao ser aberto, o software:
 1. Serial na porta 3
 2. API key salva do mailersend na ENV
 
+## Gerar executavel
+
+```bash
+# gerar exe
+pyinstaller monitor.spec
+
+```
 
 ## Instalação
 
@@ -74,4 +84,3 @@ Umidade: XX.XX %
 <h3>Email</h3>
 
 ![Tela principal do software (Emial)](assets/print_softwares/email.png)
-
