@@ -1,5 +1,6 @@
 import serial
 from serial.tools import list_ports
+import os;
 import time
 import re
 from mailersend import MailerSendClient, EmailBuilder
@@ -13,9 +14,12 @@ def sendEmail(temperatura, umidade):
 
         ms = MailerSendClient()
 
+        destinatario = os.getenv("EMAIL_DESTINATARIO")
+        nome = os.getenv("NOME_DESTINATARIO", "Destinatário")
+
         email = (EmailBuilder()
         .from_email("info@test-86org8e1mqzgew13.mlsender.net", "Projeto Integrador")
-        .to_many([{"email": "ronan.rochasouza@gmail.com", "name": "Ronan"}])
+        .to_many([{"email": destinatario, "name": nome}])
         .subject("TEMPERATURA OU UMIDADE CAMARA UMIDA NÃO CONFORME")
         .html(f"TEMPERATURA OU UMIDADE CÂMARA ÚMIDA NÃO CONFORME\n"
               f"TEMPERATURA: {temperatura}\n"
@@ -44,16 +48,21 @@ def menu():
         for i, port in enumerate(ports, start=1):
             print(f"{i} - {port.device} | {port.description}")
 
-        choosedPort = int(input("\nSELECIONE A PORTA PELO NÚMERO: "))
+        while True:
 
-        if 1 <= choosedPort <= len(ports):
-            selectedPort = ports[choosedPort - 1].device
-            return selectedPort
-    
-        print("OPCAO INVALIDA TENTE NOVAMENTE")
+            try:
+                choosedPort = int(input("\nSELECIONE A PORTA PELO NÚMERO: "))
+
+                if 1 <= choosedPort <= len(ports):
+                    selectedPort = ports[choosedPort - 1].device
+                    return selectedPort
+            
+                print("OPCAO INVALIDA TENTE NOVAMENTE")
+            except:
+                 print("DIGITE UMA OPCAO VÁLIDA")
 
     except:
-        print("ERRO MENU")
+        print("ERRO MENU TENTE NOVAMENTE")
 
 
 def bootstrap():
@@ -91,12 +100,13 @@ def monitoringCOM(arduino):
             print(f"Umidade: {umidade:.2f} %")
             print("----------------------")
 
-            #se a temperatura for maior que 30 graus celsius e a umidade estiver abaixo de 65 notifica o usuario e espera 1 minuto para rodar novamente
-            if temperatura > 25.00 or umidade <= 95.00: 
+            #se a temperatura for maior que 25 graus celsius ou menor que 21 e a umidade estiver abaixo de 95 notifica o usuario e espera 1 minuto para rodar novamente
+            if temperatura > 25.00 or temperatura < 21 or umidade <= 95.00: 
                 
                 print("notificar por email que a sala não está em condições ideias");
                 sendEmail(temperatura, umidade);
                 time.sleep(300)
+                arduino.reset_input_buffer() # reseta
             
 
             temperatura = None
