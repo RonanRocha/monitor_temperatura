@@ -2,7 +2,14 @@
 
 > Descrição curta: software que detecta o Arduino e exibe a temperatura atual e manda para seu email.
 
-![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)
+![Status](https://img.shields.io/badge/status-%20finalizado-green)
+
+## Integrantes
+
+- RONAN ROCHA DE SOUZA
+- VITOR GUILHERME DOS SANTOS ROCHA
+- NAPOLEÃO SILVA ALVES
+- REYLSON ANDRADE
 
 ## Sobre
 
@@ -17,9 +24,9 @@ Ao ser aberto, o software:
 
 ## Funcionalidades
 
-- [ ] Detecção do Arduino
-- [ ] Leitura da temperatura e umidade atual
-- [ ] Envio para o email
+- [x] Detecção do Arduino
+- [x] Leitura da temperatura e umidade atual
+- [x] Envio para o email
 
 ## Requisitos
 
@@ -40,7 +47,15 @@ Ao ser aberto, o software:
 ## Configuração
 
 1. Porta serial selecionavel via menu console
-2. API key salva do mailersend na ENV
+2. API key salva do [MailSender](https://www.mailersend.com/) na ENV
+
+```
+MAILERSEND_API_KEY= SUA CHAVE DE API
+
+EMAIL_DESTINATARIO= EMAIL QUE VAI RECEBER AS NOTIFICAÇÕES
+
+NOME_DESTINATARIO= NOME DA PESSOA QUE VAI RECEBER AS NOTIFICAÇÕES
+```
 
 ## Instalação
 
@@ -51,12 +66,18 @@ cd monitor_temperatura
 
 # Instalar dependências
 pip install -r requirements.txt
+
+#configurar variaveis de ambiente
+
+renomear arquivo .env-example para .env e colocar suas chaves de api e outras configurações
+
 ```
 
 ## Como Usar
 
 ```bash
-git clone https://github.com/RonanRocha/monitor_temperatura.git
+#entrar no diretorio do projeto e executar:
+
 cd monitor_temperatura
 python monitor.py
 ```
